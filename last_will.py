@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from tkinter import *
 from tkinter import filedialog
 from tkinter import ttk
@@ -107,17 +108,18 @@ class App:
             except Exception as e:
                 print(e)
 
-        try:
-            with open('./files/auth.json', 'r') as auth:
-                auth_dict = json.loads(auth.read())
+        if Path('./files/auth.json').exists():
+            try:
+                with open('./files/auth.json', 'r') as auth:
+                    auth_dict = json.loads(auth.read())
 
-            for key in self.right_entry_labels:
-                try:
-                    self.right_entries[key].insert(0, auth_dict[key])
-                except Exception as e:
-                    self.right_entries[key].insert(0, "")
-        except Exception as e:
-            print(e)
+                for key in self.right_entry_labels:
+                    try:
+                        self.right_entries[key].insert(0, auth_dict[key])
+                    except Exception as e:
+                        self.right_entries[key].insert(0, "")
+            except Exception as e:
+                print(e)
 
 
 if __name__ == '__main__':
@@ -125,8 +127,11 @@ if __name__ == '__main__':
     root.geometry("+300+300")
     app=App(root)
 
+    if not Path('./files/').exists():
+        Path('./files').mkdir()
     with open('./files/check_in.json', 'w') as check_in:
         check_in.write(json.dumps({'last_check_in': str(date.today())}))
+
 
     root.mainloop()
     #root.attributes('-topmost', True)
