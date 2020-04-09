@@ -3,7 +3,7 @@ last_will is a program that allows you to send an encrypted file with private in
 
 The recipient needs to have a PGP Public/Private key pair. The file is encrypted with the recipient's Public Key and that ensures that only them can decrypt it and read the contents. The file can be in any format (doc, pdf, txt, etc).
 
-##Setup
+## Setup
 
 Clone the repo in your working folder:
 
@@ -18,7 +18,7 @@ chmod +x setup.sh
 ```
 This will make the necessary files executable, create a virtual environment and install all the necessary packages, then open the GUI.
 
-##How it works
+## How it works
 
 The concept is simple. 
 
@@ -34,7 +34,7 @@ If you don't check in within 24 hours after you receive the warning, the file wi
 
 All the recipient needs to do then is decrypt the file with their Private key and rad the information you left for them.
 
-##GUI
+## GUI
 
 last_will comes with a GUI to enter all the necessary information.
 
@@ -56,7 +56,7 @@ Feel out the following if you have a Twilio account.
 
 Once all the information is filled out click on on **Update**. The encrypted file and all the information you filled out will be stored in the `./files` folder.
 
-##Scheduling
+## Scheduling
 
 The script that needs to be run daily to check whether you need to check in is `check_in.sh`.
 
@@ -73,9 +73,9 @@ All the parameters are optional but, if used, must be given in the above format.
 
 **If you don't use this script then you need to schedule for `check_in.sh` to run every day, otherwise the whole thing won't work**
    
-The computer needs to be running (and not on sleep mode) when the cron job is scheduled to run, otherwise it won't run for that day. Setting up the program on a computer that's always on or on a server is a good idea.
+The computer needs to be running (and not in sleep mode) when the cron job is scheduled to run, otherwise it won't run for that day. Setting up the program on a computer that's always on or on a server is a good idea.
 
-##Security
+## Security
 
 **The original (unencrypted) file should not be kept on your computer.** Ideally you should delete it after it's encrypted and empty the Trash. If you think you might need to make changes in the future, keep it on a USB drive that's used specifically for that purpose.
 
@@ -87,6 +87,6 @@ On the other hand, don't include cryptocurrency Private Keys or seeds, for examp
 
 **IMPORTANT:** Keep in mind that the credentials to your email and Twilio account are stored in plain text. Unfortunately they can't be encrypted because then `check_in.py` wouldn't be able to access them and send the emails and text message. So make sure that your computer is free of malware. If you don't feel comfortable storing this information on your computer, **don't use this program!**
 
-##Disclaimer
+## Disclaimer
 
 **Please make sure you understand how this program works and the security risks involved. I can't be held responsible if your private information or credentials fall into the wrong hands!** 
