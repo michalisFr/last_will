@@ -45,8 +45,9 @@ last_will comes with a GUI to enter all the necessary information.
 * **File to encrypt:** The file that contains your private information. 
 * **Recipient's PUBLIC key:** An .asc file that contains the recipients PGP Public key.
 
-* **Your email:** The email address used to send the email
-* **Your email password:** The password to that email. If you have enabled 2FA you will need a token instead of your usual password. Also, for Gmail (and perhaps other providers) you may need to allow insecure apps.
+* **Email to send from:** The email address used to send the email
+* **Email's password:** The password to that email. If you have enabled 2FA you will need a token instead of your usual password. Also, for Gmail (and perhaps other providers) you may need to allow insecure apps.
+* **Your email:** The email to which you wish to receive the notification to check in
 
 Feel out the following if you have a Twilio account. 
 * **Your phone number:** You will receive a text message to this phone number when it's time to check in. If your Twilio account if free, you'll need to verify this number in order to be able to receive messages.
