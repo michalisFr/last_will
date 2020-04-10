@@ -65,7 +65,7 @@ class App:
 
         ttk.Button(button_frame, text='Quit', command=root.quit).pack(side=LEFT)  # Quits the app
         # Updates parameters.json and auth.json with the values in the entry fields. Also, encrypts the file.
-        ttk.Button(button_frame, text='Update', command=self.get_values).pack(side=LEFT)
+        ttk.Button(button_frame, text='Update', command=self.update).pack(side=LEFT)
 
     def labels_entries(self, frame, labels, entry_labels):
         """This method creates the labels and entry fields for the GUI based on the lists provided as arguments"""
@@ -111,7 +111,7 @@ class App:
             self.left_entries['pubkey_file'].delete(0, END)
         self.left_entries['pubkey_file'].insert(0, filename)
 
-    def get_values(self):
+    def update(self):
         """This method is called when the Update button is clicked.
         It reads the entries from the entry fields and updates parameters.json and auth.json.
         Any empty fields are stored as "", which guarantees that the keys will exist.
@@ -142,6 +142,11 @@ class App:
             self.message_frame.configure(text=f"Couldn't open parameters.json. Error: {e}")
         except TypeError as e:
             self.message_frame.configure(text=f"Couldn't write Auth values as JSON. Error: {e}")
+
+        # Delete any pre-existing .gpg files in the ./files folder
+        for file in Path('./files').iterdir():
+            if file.suffix == '.gpg':
+                Path(file).unlink()
 
         # Call import_pubkey from file_enryption and get back the keychain
         gpg = file_encryption.import_pubkey(self.entry_values['pubkey_file'])
