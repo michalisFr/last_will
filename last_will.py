@@ -124,6 +124,48 @@ class App:
             else:
                 self.entry_values[key] = value.get()
 
+        # Get the values from the parameters.json file.
+        # We want to compare the filenames in the file with the ones in the fields, to check if they've changed.
+        try:
+            with open('./files/parameters.json', 'r') as params:
+                entry_values_in_file= json.loads(params.read())
+        except OSError as e:
+            self.message_frame.configure(text=f"Fatal error. Couldn't open parameters.json. Error: {e}")
+        except TypeError as e:
+            self.message_frame.configure(text=f"Couldn't write Parameter values as JSON. Error: {e}")
+
+
+        # Call import_pubkey from file_enryption and get back the keychain
+        gpg = file_encryption.import_pubkey(self.entry_values['pubkey_file'])
+
+        # If the return value is a string, then an error occurred, which is displayed in self.message_frame
+        # Also we'll keep the filenames already in parameters.json
+        successfully_encrypted = False
+        if type(gpg) is not str:
+            # Call encrypt_info from file encryption and get back the path to the encrypted file (a Path object)
+            encrypted_file = file_encryption.encrypt_info(gpg, self.entry_values['file_to_encrypt'])
+
+            # If the return value is a string or None, then an error occurred, which is displayed in self.message_frame
+            # Also we'll keep the filenames already in parameters.json
+            if type(encrypted_file) is not str:
+                self.message_frame.configure(text=f"File encrypted successfully: {Path(encrypted_file).name}")
+                successfully_encrypted = True
+            else:
+                self.message_frame.configure(text=encrypted_file + "\nThe encrypted and pubkey files haven't changed.")
+        else:
+            self.message_frame.configure(text=gpg + "\nThe encrypted and pubkey files haven't changed.")
+
+        # We keep the filenames already in parameters.json
+        if not successfully_encrypted:
+            self.entry_values['file_to_encrypt'] = entry_values_in_file['file_to_encrypt']
+            self.entry_values['pubkey_file'] = entry_values_in_file['pubkey_file']
+
+        # Delete any pre-existing .gpg files in the ./files folder
+        existing_file = Path('./files').joinpath(Path(self.entry_values['file_to_encrypt']).name + '.gpg')
+        for file in Path('./files').iterdir():
+            if file.suffix == '.gpg' and file != existing_file:
+                Path(file).unlink()
+
         # Write the values in parameters.json
         try:
             with open('./files/parameters.json', 'w') as params:
@@ -143,30 +185,8 @@ class App:
         except TypeError as e:
             self.message_frame.configure(text=f"Couldn't write Auth values as JSON. Error: {e}")
 
-        # Delete any pre-existing .gpg files in the ./files folder
-        for file in Path('./files').iterdir():
-            if file.suffix == '.gpg':
-                Path(file).unlink()
+        print(self.message_frame.grab_current())
 
-        # Call import_pubkey from file_enryption and get back the keychain
-        gpg = file_encryption.import_pubkey(self.entry_values['pubkey_file'])
-
-        # If the return value is a string or None, then an error occurred, which is displayed in self.message_frame
-        if gpg is not None and type(gpg) is not str:
-            # Call encrypt_info from file encryption and get back the path to the encrypted file (a Path object)
-            encrypted_file = file_encryption.encrypt_info(gpg, self.entry_values['file_to_encrypt'])
-
-            # If the return value is a string or None, then an error occurred, which is displayed in self.message_frame
-            if encrypted_file is not None and type(encrypted_file) is not str:
-                self.message_frame.configure(text=f"File encrypted successfully: {Path(encrypted_file).name}")
-            elif type(encrypted_file) is str:
-                self.message_frame.configure(text=encrypted_file)
-            else:
-                self.message_frame.configure(text="Encryption failed. A null value was returned.")
-        elif type(gpg) is str:
-            self.message_frame.configure(text=gpg)
-        else:
-            self.message_frame.configure(text="Encryption failed. A null value was returned for the keychain.")
 
     def retrieve_values(self):
         """This method retrieves the values from the JSON files and populates the entry fields."""

@@ -58,17 +58,25 @@ def encrypt_info(gpg, info_file):
                     with open(encrypted_file, 'wb') as encrypted:
                         try:
                             gpg.encrypt(message, key_id, output=encrypted)
+                            # Remove the public key from hard disk
+                            shutil.rmtree('./keys')
                         except Exception as e:
+                            shutil.rmtree('./keys')
                             return f"Fatal error. The file couldn't be encrypted. Error: {e}"
                 except OSError as e:
+                    shutil.rmtree('./keys')
                     return f"Fatal error. The target file couldn't be opened. Error: {e}"
         except OSError as e:
+            shutil.rmtree('./keys')
             return f"Fatal error. The source file couldn't be opened. Error: {e}"
 
+        return encrypted_file  # This is a Path object
+
+    else:
         # Remove the public key from hard disk
         shutil.rmtree('./keys')
 
-        return encrypted_file  # This is a Path object
+        return f"Fatal error. The source file couldn't be found."
 
 
 if __name__ == '__main__':
