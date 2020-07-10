@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 from emails import send_email
 from twilio.rest import Client
 from pathlib import Path
