@@ -59,7 +59,8 @@ Once all the information is filled out click on on **Update**. The encrypted fil
 
 ## Scheduling
 
-The command that needs to be run daily to check whether you need to check in is `pipenv run python3 check_in.py`.
+The command that needs to be run daily to check whether you need to check in is 
+`pipenv run python3 check_in.py`.
 
 There's a `scedule_cron.py` which you can use (on Linux and macOS) to create a cron job that will do that for you.
 ```
@@ -72,7 +73,7 @@ All the parameters are optional but, if used, must be given in the above format.
 `MAILTO` You can set this to `""` so that cron doesn't send you mails. Or you can set a different user on your machine.\
 `TIME` The time you want the script to run every day. It must be in format `HH:MM`. The default is 12:00.
 
-**If you don't use this script then you need to schedule for `pipenv run python3 sheck_in.py` to run every day, otherwise the whole thing won't work**
+**If you don't use this script then you need to schedule for `pipenv run python3 check_in.py` to run every day, otherwise the whole thing won't work**
    
 The computer needs to be running (and not in sleep mode) when the cron job is scheduled to run, otherwise it won't run for that day. Setting up the program on a computer that's always on or on a server is a good idea.
 
