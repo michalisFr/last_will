@@ -16,7 +16,7 @@ cd last_will
 chmod +x setup.sh
 ./setup.sh
 ```
-This will make the necessary files executable, create a virtual environment and install all the necessary packages, then open the GUI.
+This will run pipenv and install all the necessary dependencies, then open the GUI.
 
 ## How it works
 
@@ -59,7 +59,7 @@ Once all the information is filled out click on on **Update**. The encrypted fil
 
 ## Scheduling
 
-The script that needs to be run daily to check whether you need to check in is `check_in.sh`.
+The command that needs to be run daily to check whether you need to check in is `pipenv run python3 check_in.py`.
 
 There's a `scedule_cron.py` which you can use (on Linux and macOS) to create a cron job that will do that for you.
 ```
@@ -72,13 +72,15 @@ All the parameters are optional but, if used, must be given in the above format.
 `MAILTO` You can set this to `""` so that cron doesn't send you mails. Or you can set a different user on your machine.\
 `TIME` The time you want the script to run every day. It must be in format `HH:MM`. The default is 12:00.
 
-**If you don't use this script then you need to schedule for `check_in.sh` to run every day, otherwise the whole thing won't work**
+**If you don't use this script then you need to schedule for `pipenv run python3 sheck_in.py` to run every day, otherwise the whole thing won't work**
    
 The computer needs to be running (and not in sleep mode) when the cron job is scheduled to run, otherwise it won't run for that day. Setting up the program on a computer that's always on or on a server is a good idea.
 
+Alternatively you can schedule an event to wake-up your computer daily on the time you've set the cron job. For a laptop (on MacOS at least), the lid needs to be open for the event to run.
+
 ## Security
 
-**The original (unencrypted) file should not be kept on your computer.** Ideally you should delete it after it's encrypted and empty the Trash. If you think you might need to make changes in the future, keep it on a USB drive that's used specifically for that purpose.
+**The original (unencrypted) file should not be kept on your computer.** Ideally you should delete it after it's encrypted and empty the Trash. If you think you might need to make changes in the future, keep it on a USB drive that's used specifically for that purpose and hide it somewhere safe.
 
 It's also not a good idea to keep all your eggs in one basket, even if the file is encrypted. Give information that alone can't give access to something. 
 
@@ -86,7 +88,7 @@ For example, the password to your safe also requires access to the safe itself. 
 
 On the other hand, don't include cryptocurrency Private Keys or seeds, for example. Put these in your safe of bank vault and tell them how to access them.
 
-**IMPORTANT:** Keep in mind that the credentials to your email and Twilio account are stored in plain text. Unfortunately they can't be encrypted because then `check_in.py` wouldn't be able to access them and send the emails and text message. So make sure that your computer is free of malware. If you don't feel comfortable storing this information on your computer, **don't use this program!**
+**IMPORTANT:** Keep in mind that the credentials to your email and Twilio account are stored in plain text. Unfortunately they can't be encrypted because then `check_in.py` wouldn't be able to access them and send the emails and text message automatically. So make sure that your computer is free of malware. If you don't feel comfortable storing this information on your computer, **don't use this program!**
 
 ## Disclaimer
 
