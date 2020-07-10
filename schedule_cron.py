@@ -21,7 +21,7 @@ for index, arg in enumerate(sys.argv):
         elif env_var.upper() == 'TIME':
             time = value
 
-job = my_cron.new(command=f'cd {Path.cwd()} && pipenv python3 check_in.py', comment='check in')
+job = my_cron.new(command=f'cd {Path.cwd()} && pipenv run python3 check_in.py', comment='check in')
 job.day.every(1)
 job.hour.on(time.split(':')[0].strip())
 job.minute.on(time.split(':')[1].strip())
