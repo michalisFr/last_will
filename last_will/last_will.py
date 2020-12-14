@@ -1,11 +1,10 @@
-#!/usr/bin/env python3
 from tkinter import *
 from tkinter import filedialog
 from tkinter import ttk
 from pathlib import Path
 import json
 from datetime import date
-import file_encryption
+from last_will import file_encryption
 
 
 class App:
@@ -127,13 +126,12 @@ class App:
         # Get the values from the parameters.json file.
         # We want to compare the filenames in the file with the ones in the fields, to check if they've changed.
         try:
-            with open('./files/parameters.json', 'r') as params:
-                entry_values_in_file= json.loads(params.read())
+            with open('files/parameters.json', 'r') as params:
+                entry_values_in_file = json.loads(params.read())
         except OSError as e:
             self.message_frame.configure(text=f"Fatal error. Couldn't open parameters.json. Error: {e}")
         except TypeError as e:
             self.message_frame.configure(text=f"Couldn't write Parameter values as JSON. Error: {e}")
-
 
         # Call import_pubkey from file_enryption and get back the keychain
         gpg = file_encryption.import_pubkey(self.entry_values['pubkey_file'])
@@ -161,14 +159,14 @@ class App:
             self.entry_values['pubkey_file'] = entry_values_in_file['pubkey_file']
 
         # Delete any pre-existing .gpg files in the ./files folder
-        existing_file = Path('./files').joinpath(Path(self.entry_values['file_to_encrypt']).name + '.gpg')
-        for file in Path('./files').iterdir():
+        existing_file = Path('files').joinpath(Path(self.entry_values['file_to_encrypt']).name + '.gpg')
+        for file in Path('files').iterdir():
             if file.suffix == '.gpg' and file != existing_file:
                 Path(file).unlink()
 
         # Write the values in parameters.json
         try:
-            with open('./files/parameters.json', 'w') as params:
+            with open('files/parameters.json', 'w') as params:
                 params.write(json.dumps(self.entry_values, ensure_ascii=False))
         except OSError as e:
             self.message_frame.configure(text=f"Fatal error. Couldn't open parameters.json. Error: {e}")
@@ -177,7 +175,7 @@ class App:
 
         # Read the values of the right entry fields and write them to auth.json
         try:
-            with open('./files/auth.json', 'w') as auth:
+            with open('files/auth.json', 'w') as auth:
                 auth_dict = {key: value.get() for key, value in self.right_entries.items()}
                 auth.write(json.dumps(auth_dict))
         except OSError as e:
@@ -187,13 +185,12 @@ class App:
 
         print(self.message_frame.grab_current())
 
-
     def retrieve_values(self):
         """This method retrieves the values from the JSON files and populates the entry fields."""
 
-        if Path('./files/parameters.json').exists():
+        if Path('files/parameters.json').exists():
             try:
-                with open('./files/parameters.json', 'r') as params:
+                with open('files/parameters.json', 'r') as params:
                     entry_values = json.loads(params.read())
                 for key, value in entry_values.items():
                     if key != 'unencrypted_message':
@@ -205,9 +202,9 @@ class App:
                                                   f"If this the first time your run the app ignore this error. "
                                                   f"Error: {e}")
 
-        if Path('./files/auth.json').exists():
+        if Path('files/auth.json').exists():
             try:
-                with open('./files/auth.json', 'r') as auth:
+                with open('files/auth.json', 'r') as auth:
                     auth_dict = json.loads(auth.read())
 
                 for key in self.right_entry_labels:
@@ -226,13 +223,13 @@ if __name__ == '__main__':
     root.geometry("+300+300")  # Place it in the middle of the screen
     app = App(root)
 
-    if not Path('./files/').exists():
-        Path('./files').mkdir()
+    if not Path('files/').exists():
+        Path('files').mkdir()
 
-    # When you open the app this is considered a check in the the current date is written to check_in.json
+    # When you open the app this is considered a check in and the current date is written to check_in.json
     # This means that if there's a deadline key in the file it's removed
     try:
-        with open('./files/check_in.json', 'w') as check_in:
+        with open('files/check_in.json', 'w') as check_in:
             check_in.write(json.dumps({'last_check_in': str(date.today())}))
     except OSError as e:
         print(f"Fatal error. Couldn't open check_in.json to write the current date. Error: {e}")

@@ -36,4 +36,3 @@ def send_email(sender, receiver_address, sender_address, password, content_file=
 
 if __name__ == '__main__':
     print("If you want to run this script standalone, edit it and provide the necessary parameters to the function call")
-    #send_email()

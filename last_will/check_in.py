@@ -1,5 +1,4 @@
-#!/usr/bin/env python3
-from emails import send_email
+from last_will.emails import send_email
 from twilio.rest import Client
 from pathlib import Path
 from datetime import date, datetime
@@ -14,7 +13,7 @@ class Check:
         self.warning_sent = warning_sent  # True if a warning about deadline has already been sent
 
         try:
-            with open('./files/parameters.json') as params_file:
+            with open('files/parameters.json') as params_file:
                 parameters = json.loads(params_file.read())
         except OSError as e:
             print(f"Fatal error. Couldn't open parameters.json. Error: {e}")
@@ -26,7 +25,7 @@ class Check:
         self.unencrypted_message = parameters['unencrypted_message']
 
         try:
-            with open('./files/auth.json', 'r') as auth_file:
+            with open('files/auth.json', 'r') as auth_file:
                 auth = json.loads(auth_file.read())
         except OSError as e:
             print(f"Fatal error. Couldn't open auth.json. Error: {e}")
@@ -44,7 +43,7 @@ class Check:
         """Function to send the email to the designated recipient if you don't check in after the deadline has passed"""
 
         encrypted_file = ''
-        for file in Path('./files').iterdir():
+        for file in Path('files').iterdir():
             if file.suffix == '.gpg':
                 encrypted_file = str(file)
 
@@ -112,9 +111,9 @@ In order to reset simply go to the working directory and run ./last_will.sh"""
 
 
 if __name__ == '__main__':
-    if Path('./files/check_in.json').exists():
+    if Path('files/check_in.json').exists():
         try:
-            with open('./files/check_in.json', 'r') as check_in_file:
+            with open('files/check_in.json', 'r') as check_in_file:
                 check_in_info = json.loads(check_in_file.read())
         except OSError as e:
             print(f"Fatal error. Couldn't open check_in.json. Error: {e}")
@@ -137,7 +136,7 @@ if __name__ == '__main__':
                 check_in_info['deadline'] = str(deadline)
 
                 try:
-                    with open('./files/check_in.json', 'w') as check_in_file:
+                    with open('files/check_in.json', 'w') as check_in_file:
                         check_in_file.write((json.dumps(check_in_info)))
                 except OSError as e:
                     print(f"Fatal error. Couldn't open check_in.json to write the deadline. Error: {e}")

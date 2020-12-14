@@ -45,7 +45,7 @@ def encrypt_info(gpg, info_file):
 
         name = Path(info_file).name
         suffix = Path(info_file).suffix
-        encrypted_path = Path('./files/')
+        encrypted_path = Path('files/')
         if not encrypted_path.exists():
             Path(encrypted_path).mkdir()
 
