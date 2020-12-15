@@ -3,13 +3,13 @@ from distutils.core import setup
 setup(
     name='last_will',
     packages=['last_will'],
-    version='0.1.4',
+    version='0.1.5',
     license='MIT',
     description='A program to send encrypted sensitive information to a trusted person in case of your untimely demise',
     author='Michalis Fragkiadakis',
     author_email='michalis.fr@icloud.com',
     url='https://github.com/michalisFr/last_will',
-    download_url='https://github.com/michalisFr/last_will/archive/v0.1.4.tar.gz',
+    download_url='https://github.com/michalisFr/last_will/archive/v0.1.5.tar.gz',
     keywords=['encrypted', 'sensitive', 'information', 'failsafe'],  # Keywords that define your package best
     install_requires=[
         'certifi',
