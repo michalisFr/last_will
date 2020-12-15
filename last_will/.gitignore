@@ -3,5 +3,3 @@ __pycache__/
 .idea/
 .DS_Store
 venv/
-Pipfile
-Pipfile.lock
