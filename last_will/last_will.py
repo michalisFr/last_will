@@ -4,7 +4,6 @@ from tkinter import ttk
 from pathlib import Path
 import json
 from datetime import date
-from last_will import file_encryption
 
 
 class App:

@@ -33,7 +33,7 @@ def cron_job():
         os.system('crontab -l')
     else:
         my_cron.remove_all(comment='check in')
-        job = my_cron.new(command=f'cd {Path.cwd()} && pipenv run python3 check_in.py', comment='check in')
+        job = my_cron.new(command=f'python3 check_in.py', comment='check in')
         job.day.every(1)
         job.hour.on(args.time.split(':')[0].strip())
         job.minute.on(args.time.split(':')[1].strip())
