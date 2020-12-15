@@ -90,7 +90,7 @@ class Check:
             message = f"""It has been at least 30 days since you last checked in. 
 You need to check in in the next 24 hours.\n
 Otherwise at {self.deadline} the email with the important info will be sent to the designated recipient.\n
-In order to reset simply go to the working directory and run ./last_will.sh"""
+In order to reset simply go to the working directory and run python3 last_will.py"""
 
             # send_email will return 0 if everything went ok, otherwise it will return an error message
             status = send_email(self.sender_name, self.your_email,

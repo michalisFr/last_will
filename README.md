@@ -6,17 +6,43 @@ The recipient needs to have a PGP Public/Private key pair. The file is encrypted
 The intended usage is as a stand-alone utility and not as a library to import to other projects.
 ## Setup
 
-Installation:
+You usually will want to install `last_will` in a directory other than `site-packages` that pip uses to install packages, for easy access. In order to do that type in terminal: 
 ```
-pip install last_will
+pip install last-will -t <installation_dir> --no-deps 
 ```
+For example:
+```
+pip install last-will -t ~/last_will --no-deps
+```
+Then navigate to the folder `<installation_dir>` and run:
+```
+pip install -r requirements.txt
+```
+to install the required packages in the usual way.
 
-To open the GUI, simply run:
+Alternatively, you can simply do:
+```
+pip install last-will -t <installation_dir>
+``` 
+This will install `last_will` and all dependencies in that folder.
+## Usage
+
+To open the GUI, first navigate to the folder:
+```
+cd <installation_dir>/last_will
+```
+and then run:
 
 ```
 python3 last_will.py
 ```
+After you fill out the necessary information, run the scheduler (while in the same folder):
+```
+python3 schedule_cron.py
+```
+When you need to check in every month, simply navigate to the above folder and open the GUI in the same way. If you don't want to change anything, simply click **Quit**, otherwise update the information you want, click **Update** and then **Quit**.
 
+Below you'll find more details on the usage and scheduling.
 ## How it works
 
 The concept is simple. 
@@ -25,8 +51,11 @@ You create a file where you include information that a trusted person will need 
 
 You coordinate with a close friend or relative who will be the recipient of this file and they provide you with their PGP Public key. `last_will` will encrypt your file with this Public key, ensuring that only them can read it. 
 
-Then you give `last_will` all the necessary information (like recipient's email, your email, the public key file etc) and forget about it. Every 30 days you will receive an email (and optionally a text message) asking you to check in. In that case all you need to do is run `last_will`. Open terminal and type:
+Then you give `last_will` all the necessary information (like recipient's email, your email, the public key file etc) and forget about it. Every 30 days you will receive an email (and optionally a text message) asking you to check in. In that case all you need to do is run `last_will`. 
+
+To do that, open terminal and type:
 ```
+cd <installation_dir>/last_will
 python3 last_will.py
 ``` 
 If you don't check in within 24 hours after you receive the warning, the file will be sent to the recipient, since it's assumed you have left this vain world.
@@ -54,16 +83,22 @@ Fill out the following if you have a Twilio account.
 * **Your Twilio account ID:** Your Twilio account ID
 * **Your Twilio Auth token:** Your Twilio Auth token
 
-Once all the information is filled out click on on **Update**. The encrypted file and all the information you filled out will be stored in a `/files` folder, inside the package folder.
+Once all the information is filled out click on **Update**. The encrypted file and all the information you filled out will be stored in a `/files` folder, inside the package folder.
 
 ## Scheduling
 
 The command that needs to be run daily to check whether you need to check in is: 
 ```
-python3 check_in.py
+cd <installation_dir>/last_will && python3 check_in.py
 ```
 
-There's a `scedule_cron.py` which you can use (on Linux and macOS) to create a cron job that will do that for you.
+There's a `scedule_cron.py` script which you can use (on Linux and macOS) to create a cron job that will do that for you.
+
+First **make sure you navigate to the folder:** 
+```
+cd <installation_dir>/last_will
+``` 
+and then run:
 ```
 python3 schedule_cron.py
 ```  
@@ -71,12 +106,13 @@ You can use the following optional parameters:
 
 `-s, --shell` If you want cron to run in a different shell than the default (/bin/sh)\
 `-p, --path` If you want to set a custom PATH for cron. Cron runs with an empty Path basically (/usr/bin:/bin)\
-`-m, --mailto` You can set this to `""` so that cron doesn't send you mails. Or you can set a different user on your machine.\
+`-m, --mailto` You can set this to `""` so that cron doesn't send you mails. Or you can set a different user on your machine. The default location is `/var/mail`. 
+It is recommended that you leave that option to default and check the messages periodically (especially after the first use) to ensure that everything is working as expected.\
 `-t, --time` The time you want the script to run every day. It must be in format `HH:MM`. The default is 12:00. \
 `-d, --display` Display the current configuration and cron jobs (equivalent to `cronjob -l`) \
 `-r, --reset` Restore the default cron configuration and delete the job.
 
-**If you don't use this script then you need to schedule for `python3 check_in.py` to run every day in some way, otherwise the whole thing won't work**
+**If you don't use this script then you need to schedule in some other way for `check_in.py` to run every day from the above folder, otherwise the whole thing won't work**
    
 The computer needs to be running (and not in sleep mode) when the cron job is scheduled to run, otherwise it won't run for that day. Setting up the program on a computer that's always on or on a local server is a good idea (although you need to consider security, as sensitive information, eg. the email password, are stored locally)
 
