@@ -14,7 +14,7 @@ For example:
 ```
 pip install -t ~/last_will --no-deps last-will
 ```
-Then navigate to the folder `<installation_dir>` and run:
+Then navigate to the folder `<installation_dir>/last_will` and run:
 ```
 pip install -r requirements.txt
 ```
