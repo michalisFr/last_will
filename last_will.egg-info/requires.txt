@@ -1,0 +1,13 @@
+certifi
+chardet
+idna
+pretty-bad-protocol
+psutil
+PyJWT
+python-crontab
+python-dateutil
+pytz
+requests
+six
+twilio
+urllib3
