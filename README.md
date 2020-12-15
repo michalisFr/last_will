@@ -119,7 +119,7 @@ You can use the following optional parameters:
 It is recommended that you leave that option to default and check the messages periodically (especially after the first use) to ensure that everything is working as expected.\
 `-t, --time` The time you want the script to run every day. It must be in format `HH:MM`. The default is 12:00. \
 `-d, --display` Display the current configuration and cron jobs (equivalent to `cronjob -l`) \
-`-r, --reset` Restore the default cron configuration and delete the job.
+`-r, --remove` Delete the job.
 
 **If you don't use this script then you need to schedule in some other way for `check_in.py` to run every day from the above folder, otherwise the whole thing won't work**
    

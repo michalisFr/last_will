@@ -16,7 +16,7 @@ def cron_job():
     parser.add_argument('-t', '--time', default='12:00',
                         help="Set the time when the cron job will be run. Default is 12:00")
     parser.add_argument('-d', '--display', action='store_true', help="Display the active configuration and cron jobs")
-    parser.add_argument('-r', '--reset', action='store_true', help="Restore configuration and delete cron job")
+    parser.add_argument('-r', '--remove', action='store_true', help="Delete the cron job")
 
     args = parser.parse_args()
 
@@ -28,9 +28,10 @@ def cron_job():
         my_cron.env['MAILTO'] = args.mailto
     if args.display:
         os.system('crontab -l')
-    elif args.reset:
-        os.system('crontab -r')
-        os.system('crontab -l')
+    elif args.remove:
+        my_cron.remove_all(comment='check in')
+        my_cron.write()
+        print("** Cron job deleted")
     else:
         my_cron.remove_all(comment='check in')
         job = my_cron.new(command=f'cd {Path.cwd()} && python3 check_in.py', comment='check in')
@@ -38,7 +39,8 @@ def cron_job():
         job.hour.on(args.time.split(':')[0].strip())
         job.minute.on(args.time.split(':')[1].strip())
 
-    my_cron.write()
+        my_cron.write()
+        os.system('crontab -l')
 
 
 if __name__ == '__main__':
