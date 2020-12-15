@@ -1,4 +1,4 @@
-from last_will.emails import send_email
+from emails import send_email
 from twilio.rest import Client
 from pathlib import Path
 from datetime import date, datetime

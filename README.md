@@ -6,25 +6,19 @@ The recipient needs to have a PGP Public/Private key pair. The file is encrypted
 The intended usage is as a stand-alone utility and not as a library to import to other projects.
 ## Setup
 
-You usually will want to install `last_will` in a directory other than `site-packages` that pip uses to install packages, for easy access. In order to do that type in terminal: 
+You usually will want to install `last_will` in a directory other than `site-packages` that pip uses to install packages, for easy access. 
+
+In order to do that, type:
 ```
 pip install -t <installation_dir> --no-deps last-will
+pip install last-will
 ```
 For example:
 ```
 pip install -t ~/last_will --no-deps last-will
+pip install last-will
 ```
-Then navigate to the folder `<installation_dir>/last_will` and run:
-```
-pip install -r requirements.txt
-```
-to install the required packages in the usual way.
-
-Alternatively, you can simply do:
-```
-pip install -t <installation_dir> last-will
-``` 
-This will install `last_will` and _all_ dependencies in _that_ folder.
+This actually installs `last_will` both in the `<installation_dir>` and in `site-packages`, but it prevents the dependencies to be installed in the `<installation_dir>`.
 #### Note about Tkinter
 This program uses the `tkinter` library to build the GUI. If you encounter an import error regarding `tkinter`, you need to install it on your system. Please try the following:
 
