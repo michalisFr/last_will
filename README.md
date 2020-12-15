@@ -8,11 +8,11 @@ The intended usage is as a stand-alone utility and not as a library to import to
 
 You usually will want to install `last_will` in a directory other than `site-packages` that pip uses to install packages, for easy access. In order to do that type in terminal: 
 ```
-pip install last-will -t <installation_dir> --no-deps 
+pip install -t <installation_dir> --no-deps last-will
 ```
 For example:
 ```
-pip install last-will -t ~/last_will --no-deps
+pip install -t ~/last_will --no-deps last-will
 ```
 Then navigate to the folder `<installation_dir>` and run:
 ```
@@ -22,9 +22,24 @@ to install the required packages in the usual way.
 
 Alternatively, you can simply do:
 ```
-pip install last-will -t <installation_dir>
+pip install -t <installation_dir> last-will
 ``` 
-This will install `last_will` and all dependencies in that folder.
+This will install `last_will` and _all_ dependencies in _that_ folder.
+#### Note about Tkinter
+This program uses the `tkinter` library to build the GUI. If you encounter an import error regarding `tkinter`, you need to install it on your system. Please try the following:
+
+**For MacOS**
+```
+brew install tcl-tk
+``` 
+**For Ubuntu**
+```
+sudo apt-get install tk-dev
+```
+**pynev**
+
+Please note that if you're using `pyenv` you may encounter version incompatibility issues with `tkinter`. It is recommended that you use `last_will` with your system version of Python. If you're interested in making `tkinter` work with `pyenv` have a look at this thread:\
+https://github.com/pyenv/pyenv/issues/1375
 ## Usage
 
 To open the GUI, first navigate to the folder:
